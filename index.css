@@ -1,64 +1,189 @@
 #header {
-    background-color: #FCF6E6;
+  background-color: #fcf6e6;
+  display: flex;
 }
 #header img {
-    width: 190px;
+  width: 190px;
+}
+#header .btn-primary {
+  z-index: 1000;
 }
 .dropdown-menu {
-    background-color: #FCF6E6;
+  background-color: #fcf6e6;
 }
 
 #main .carousel-inner img {
-    max-height: 90vh;
-    object-fit: cover;
+  max-height: 90vh;
+  object-fit: cover;
 }
 
 #carousel {
-    position: relative;
+  position: relative;
 }
 #carousel .overlay {
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
 }
 
-
 .overlay h1 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .section-title {
-    margin-top: 20px;
-    margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 #next-event #eventos {
-    background-color: #f4537a;
-    color: white;
+  background-color: #f4537a;
+  color: white;
 }
 #next-event img {
-    max-width: 100%;
+  max-width: 100%;
 }
 #tiendas a {
-    color: #f4537a;
-    text-decoration: none;
-    font-size: 30px;
-    font-weight: bold;
+  color: #f4537a;
+  text-decoration: none;
+  font-size: 30px;
+  font-weight: bold;
 }
 #footer {
-    background: #ffcb27;
+  background: #ffcb27;
 }
 #footer a {
-    color: black;
+  color: black;
 }
 .modal {
-    z-index: 1060; 
+  z-index: 1060;
 }
 .modal-front {
-    z-index: 1050 !important;
-  }
+  z-index: 1050 !important;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 10px;
+  color: white;
+  text-shadow: 2px 2px rgb(116, 116, 116);
+  text-transform: uppercase;
+  border: solid 2px black;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-size: 17px;
+  background-color: hsl(49deg 98% 60%);
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  margin-right: 10px;
+}
+
+button:active {
+  transform: scale(0.9);
+  transition: all 100ms ease;
+}
+
+button svg {
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+.play {
+  transition: all 0.5s ease;
+  transition-delay: 300ms;
+}
+
+button:hover svg {
+  transform: scale(3) translate(50%);
+}
+
+.now {
+  position: absolute;
+  left: 0;
+  transform: translateX(-100%);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+button:hover .now {
+  transform: translateX(10px);
+  transition-delay: 300ms;
+}
+
+button:hover .play {
+  transform: translateX(200%);
+  transition-delay: 300ms;
+}
+
+.button2 {
+  height: 50px;
+  width: 150px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  border: solid 2px black;
+}
+
+.button2:hover {
+  box-shadow: 0.5px 0.5px 150px #252525;
+}
+
+.type1::after {
+  content: "EVENTO";
+  height: 50px;
+  width: 150px;
+  background-color: #008080;
+  color: #fff;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  transform: translateY(50px);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.type1::before {
+  content: "AGREGAR";
+  height: 50px;
+  width: 150px;
+  background-color: hsl(49deg 98% 60%);
+  color: #ffffff;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  transform: translateY(0px) scale(1.2);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
+  border: solid 2px black;
+}
+
+.type1:hover::after {
+  transform: translateY(0) scale(1.2);
+}
+
+.type1:hover::before {
+  transform: translateY(-50px) scale(0) rotate(120deg);
+}
+
+
+

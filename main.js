@@ -23,30 +23,51 @@ agregarEventoForm.addEventListener('submit', function (event) {
     const fechaEvento = document.getElementById('fechaEvento').value;
     const descripcionEvento = document.getElementById('descripcionEvento').value;
 
-    const imagenEventoFile = imagenEventoInput.files[0]; // Corregido para obtener el archivo de imagen
+    const imagenEventoFile = imagenEventoInput.files[0];
 
     if (imagenEventoFile) {
-        const imagenEventoURL = URL.createObjectURL(imagenEventoFile);
+        const formData = new FormData();
 
-        const eventoDiv = document.createElement('div');
-        eventoDiv.className = 'row';
+        // Agregar datos al FormData
+        formData.append('nombreEvento', nombreEvento);
+        formData.append('fechaEvento', fechaEvento);
+        formData.append('descripcionEvento', descripcionEvento);
+        formData.append('imagenEvento', imagenEventoFile);
 
-        eventoDiv.innerHTML = `
-            <div class="col-12 col-md-6 ps-0 pe-0">
-                <img src="${imagenEventoURL}" alt="${nombreEvento}" style="width: 100%;">
-            </div>
-            <div class="col-12 col-md-6 pt-2 pb-2">
-                <h2>${nombreEvento}</h2>
-                <p>${descripcionEvento}</p>
-                <p>Fecha: ${fechaEvento}</p>
-            </div>
-        `;
+        const xhr = new XMLHttpRequest();
 
-        eventosContainer.appendChild(eventoDiv);
+        // Configurar la solicitud
+        xhr.open('POST', 'database.php', true);
 
-        agregarEventoForm.reset();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
 
-        URL.revokeObjectURL(imagenEventoURL);
+                const respuesta = JSON.parse(xhr.responseText);
+
+                const eventoDiv = document.createElement('div');
+                eventoDiv.className = 'row';
+
+                eventoDiv.innerHTML = `
+                <div class="col-12 col-md-6 ps-0 pe-0">
+                    <img src="./img/${respuesta.imagen}" alt="${nombreEvento}" style="width: 100%;">
+                </div>
+                <div class="col-12 col-md-6 pt-2 pb-2">
+                    <h2>${nombreEvento}</h2>
+                    <p>${descripcionEvento}</p>
+                    <p>Fecha: ${fechaEvento}</p>
+                    <button type="button" class="btn btn-warning editar-evento-btn">Editar</button>
+                    <button type="button" class="btn btn-danger eliminar-evento-btn">Eliminar</button>
+                </div>
+            `;
+
+                eventosContainer.appendChild(eventoDiv);
+
+                agregarEventoForm.reset();
+            } else {
+                alert('Hubo un error al agregar el evento.');
+            }
+        };
+        xhr.send(formData);
     } else {
         alert('Por favor, selecciona una imagen.');
     }

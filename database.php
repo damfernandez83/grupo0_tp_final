@@ -1,37 +1,32 @@
 <?php
 class Database {
-    // Aca tienen que poner los valores correspondientes a sus credenciales
-    // obviamente va a variar depedneindo de cada uno y como no es a un servidor en comun
-    // lo dejo asi para que se entienda
-    private $host = "tu_host";
-    private $usuario = "tu_usuario";
-    private $contrasena = "tu_contrasena";
-    private $nombreBaseDatos = "tu_base_de_datos";
+    private $host = "localhost";
+    private $usuario = "root";
+    private $contrasena = ""; 
+    private $nombreBaseDatos = "proyectofinal";
+    private $puerto = 3307; 
     private $conexion;
 
-    // Aca creamos el metodo para conectar a la base de datos
     public function conectar() {
-        $this->conexion = new mysqli($this->host, $this->usuario, $this->contrasena, $this->nombreBaseDatos);
+        $this->conexion = new mysqli($this->host, $this->usuario, $this->contrasena, $this->nombreBaseDatos, $this->puerto);
 
-        // Verificamos la conexión
         if ($this->conexion->connect_error) {
             die("Error de conexión: " . $this->conexion->connect_error);
         }
+
+        return $this->conexion;
     }
 
-    // Metodo donde ejecutamos las consultas
-    public function ejecutarConsulta($consulta) {
+    // Método para ejecutar consultas sin necesidad de prepararlas
+    public function ejecutarConsultaSimple($consulta) {
         $this->conectar();
         
-        // Aca se ejecuta
         $resultado = $this->conexion->query($consulta);
 
-        // Manejar errores por si la consulta falla
         if (!$resultado) {
             die("Error en la consulta: " . $this->conexion->error);
         }
 
-        // Y aca cerrar la conexión
         $this->cerrarConexion();
 
         return $resultado;
@@ -43,8 +38,26 @@ class Database {
     }
 }
 
-// Ejemplo de uso:
-// $db = new Database();
-// $consulta = "INSERT INTO presupuestos (nombre, email, telefono, mensaje) VALUES ('Ejemplo', 'ejemplo@example.com', '123456789', 'Consulta de presupuesto')";
-// $resultado = $db->ejecutarConsulta($consulta);
+$database = new Database();
+$conexion = $database->conectar();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombreEvento = $_POST['nombreEvento'];
+    $fechaEvento = $_POST['fechaEvento'];
+    $descripcionEvento = $_POST['descripcionEvento'];
+
+    // Procesar la imagen y guardarla en la carpeta 'img'
+    $imagenEvento = $_FILES['imagenEvento'];
+    $imagenNombre = $imagenEvento['name'];
+    $imagenRutaTemp = $imagenEvento['tmp_name'];
+    $imagenRutaDestino = './img/' . $imagenNombre;
+
+    move_uploaded_file($imagenRutaTemp, $imagenRutaDestino);
+
+    $consultaInsertar = "INSERT INTO eventos (nombre, fecha, descripcion, imagen) VALUES ('$nombreEvento', '$fechaEvento', '$descripcionEvento', '$imagenNombre')";
+    $database->ejecutarConsultaSimple($consultaInsertar);
+    $respuesta = array('success' => true, 'imagen' => $imagenNombre);
+    echo json_encode($respuesta);
+    exit;
+}
 ?>
