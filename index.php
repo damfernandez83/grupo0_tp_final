@@ -180,6 +180,33 @@ if ($authUsuario && $rolUsuario === "admin")
               </div>
               <button type="submit" class="btn btn-primary">Agregar Evento</button>
             </form>
+
+            <div id="editModal" class="modal">
+                            <!-- Formulario para editar evento -->
+                <form id="editarEventoForm" class="d-none" enctype="multipart/form-data" method="post"
+                    action="eventos.php">
+                    <input type="hidden" id="editEventoId" name="editarEvento">
+                    <div class="mb-3">
+                        <label for="editImagenEvento" class="form-label">Nueva Imagen del Evento:</label>
+                        <input type="file" class="form-control" id="editImagenEvento" name="imagenEvento" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNombreEvento" class="form-label">Nombre del Evento:</label>
+                        <input type="text" class="form-control" id="editNombreEvento" name="nombreEvento" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editFechaEvento" class="form-label">Fecha del Evento:</label>
+                        <input type="date" class="form-control" id="editFechaEvento" name="fechaEvento" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescripcionEvento" class="form-label">Descripción del Evento:</label>
+                        <textarea class="form-control" id="editDescripcionEvento" name="descripcionEvento" rows="4"
+                            required></textarea>
+                    </div>
+                    <button type="button" id="saveEditBtn" class="btn btn-success">Guardar Cambios</button>
+              </form>
+              </div>
+
           </div>
         </div>
       </div>
