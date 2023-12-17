@@ -203,5 +203,16 @@ button:hover .play {
   color: white;
 }
 
+#header {
+  background-color: #fcf6e6;
+  display: flex;
+}
 
+#header img {
+  width: 190px;
+}
+
+.dropdown-menu {
+  background-color: #fcf6e6;
+}
 

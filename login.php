@@ -1,4 +1,5 @@
 <?php
+// voy a ser lo mas simple posible jajaja lo prometo
 include 'database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,8 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verificar si hay filas
     if ($resultado->num_rows > 0) {
-        // Autenticación exitosa
-
         // Obtener el rol del usuario
         $usuario = $resultado->fetch_assoc();
         $rolUsuario = $usuario['rol'];
@@ -45,4 +44,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $_SESSION['rolUsuario'] = $elRolDelUsuario; // Reemplaza con la variable que almacena el rol del usuario
 // Redirigir a la página principal
 header('Location: index.php');
+// fin a jugar al Lol
 ?>

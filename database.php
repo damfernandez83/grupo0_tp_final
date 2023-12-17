@@ -1,5 +1,5 @@
 <?php
-// Agregar encabezados CORS
+// Agrege encabezados CORS por que me tiraba error asi que por las dudas =)
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
