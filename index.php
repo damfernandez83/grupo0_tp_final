@@ -1,4 +1,5 @@
 <?php
+require_once('database.php');
 session_start();
 
 // Verificar si el usuario está autenticado
@@ -72,6 +73,7 @@ $_SESSION['rolUsuario'] = $rolUsuario;
 if ($authUsuario && $rolUsuario === "admin") 
 ?>
   <button id="agregarEventoBtn" class="button2 type1" data-bs-toggle="modal" data-bs-target="#modalCRUD">Agregar Eventos</button>
+  <button id="crudEventosBtn" class="button3 type2" onclick="window.location.href='tablaAdmin.php'">Crud Eventos</button>
 <?php
 
 //   echo'  <button type="button" id="loginBtn" data-bs-toggle="modal" data-bs-target="#modalLogin">
@@ -206,7 +208,6 @@ if ($authUsuario && $rolUsuario === "admin")
                     <button type="button" id="saveEditBtn" class="btn btn-success">Guardar Cambios</button>
               </form>
               </div>
-
           </div>
         </div>
       </div>
@@ -264,7 +265,7 @@ if ($authUsuario && $rolUsuario === "admin")
           </div>
         </div>
       </div>
-    </section>
+      <div id="eventosContainer" class="mt-4 mb-4"></div>
     <!--tiendas-->
     <section id="tiendas">
       <div class="container">

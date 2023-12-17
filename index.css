@@ -185,5 +185,23 @@ button:hover .play {
   transform: translateY(-50px) scale(0) rotate(120deg);
 }
 
+#eventosContainer {
+  background-color: #f4537a;
+  color: white;
+}
+
+#eventosContainer img {
+  max-width: 100%;
+}
+
+#eventosContainer h2,
+#eventosContainer p {
+  color: white;
+}
+
+#eventosContainer a {
+  color: white;
+}
+
 
 

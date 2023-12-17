@@ -36,10 +36,11 @@ class Database {
         return $resultado;
     }
 
-    public function eliminarEvento($nombreEvento) {
-        $consulta = "DELETE FROM eventos WHERE nombre = ?";
+    // Método para eliminar un evento
+    public function eliminarEvento($eventId) {
+        $consulta = "DELETE FROM eventos WHERE id = ?";
         $stmt = $this->conectar()->prepare($consulta);
-        $stmt->bind_param("s", $nombreEvento);
+        $stmt->bind_param("i", $eventId);
 
         $resultado = $stmt->execute();
 
@@ -52,15 +53,48 @@ class Database {
 
         return $resultado;
     }
-
+    
     public function editarEvento($eventId, $nombreEvento, $fechaEvento, $descripcionEvento) {
-        $consultaEditar = "UPDATE eventos SET nombre = '$nombreEvento', fecha = '$fechaEvento', descripcion = '$descripcionEvento' WHERE id = '$eventId'";
-        $this->ejecutarConsultaSimple($consultaEditar);
-    }
-        // Método para cerrar la conexión
-        private function cerrarConexion() {
-            $this->conexion->close();
+        $consultaEditar = "UPDATE eventos SET nombre = ?, fecha = ?, descripcion = ? WHERE id = ?";
+        $stmt = $this->conectar()->prepare($consultaEditar);
+        $stmt->bind_param("sssi", $nombreEvento, $fechaEvento, $descripcionEvento, $eventId);
+    
+        $resultado = $stmt->execute();
+    
+        if (!$resultado) {
+            die("Error en la consulta UPDATE: " . $stmt->error);
         }
+    
+        $stmt->close();
+        $this->cerrarConexion();
+    
+        return $resultado;
+    }
+    
+    public function obtenerEvento($eventId) {
+        $consulta = "SELECT * FROM eventos WHERE id = ?";
+        $stmt = $this->conectar()->prepare($consulta);
+        $stmt->bind_param("i", $eventId);
+        
+        $stmt->execute();
+        
+        $resultado = $stmt->get_result();
+        
+        if ($resultado->num_rows > 0) {
+            $evento = $resultado->fetch_assoc();
+            $stmt->close();
+            $this->cerrarConexion();
+            return $evento;
+        } else {
+            $stmt->close();
+            $this->cerrarConexion();
+            throw new Exception("Evento no encontrado con ID: " . $eventId);
+        }
+    }
+
+    public function cerrarConexion() {
+        $this->conexion->close();
+    }
 }
 
 $database = new Database();
@@ -87,33 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         exit;
     }
 }
-
-// Manejar solicitud de edición
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editarEvento'])) {
-    $eventId = $_POST['editarEvento'];
-    $nombreEvento = $_POST['nombreEvento'];
-    $fechaEvento = $_POST['fechaEvento'];
-    $descripcionEvento = $_POST['descripcionEvento'];
-
-    error_log('Procesando solicitud POST para editar evento');
-
-    try {
-        // Consulta para editar evento
-        $database->editarEvento($eventId, $nombreEvento, $fechaEvento, $descripcionEvento);
-
-        // Respuesta JSON para éxito
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'message' => 'Evento editado correctamente']);
-        exit;
-    } catch (Exception $e) {
-        // Respuesta JSON para error
-        error_log('Error al editar el evento: ' . $e->getMessage());
-        header('Content-Type: application/json', true, 500);
-        echo json_encode(['success' => false, 'message' => 'Error al editar el evento: ' . $e->getMessage()]);
-        exit;
-    }
-}
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombreEvento = $_POST['nombreEvento'];
