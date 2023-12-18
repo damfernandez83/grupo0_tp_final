@@ -167,6 +167,7 @@ $_SESSION['rolUsuario'] = $rolUsuario;
               <div class="mb-3">
                 <label for="imagenEvento" class="form-label">Imagen del Evento:</label>
                 <input type="file" class="form-control" id="imagenEvento" name="imagenEvento" accept="image/*" required>
+                <img id="imagenEventoPreview" src="" alt="Preview" class="preview-image" />
               </div>
               <div class="mb-3">
                 <label for="nombreEvento" class="form-label">Nombre del Evento:</label>

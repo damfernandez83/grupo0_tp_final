@@ -212,4 +212,8 @@ button:hover .play {
   width: 190px;
 }
 
+.preview-image {
+  width: 100px;
+  height: auto;
+}
 

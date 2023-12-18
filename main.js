@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', function() {
+
 const price = 2000
 const discountSelect = document.getElementById('discount-choice');
 const finalPriceText = document.getElementById('final-price');
@@ -282,3 +284,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener('DOMContentLoaded', loadStoredEvents);
+
+});
